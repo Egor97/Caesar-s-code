@@ -8,35 +8,11 @@ import java.util.regex.Pattern;
 
 import static java.lang.System.out;
 
-public class Decode {
+public class DecodeService {
     private ArrayList<Character> alp = setAlp();
     private ArrayList<Character> smAlp =setSmAlp();
 
-    private ArrayList<Character> setAlp() {
-        alp = new ArrayList<>();
-
-        for (char i = '\u0410'; i <= '\u042F'; i++) {
-            alp.add(i);
-        }
-
-        alp.add(6, '\u0401');
-
-        return alp;
-    }
-
-    private ArrayList<Character> setSmAlp() {
-        smAlp = new ArrayList<>();
-
-        for (char i = '\u0430'; i <= '\u044F'; i++) {
-            smAlp.add(i);
-        }
-
-        smAlp.add(6, '\u0451');
-
-        return smAlp;
-    }
-
-    private String getMessage() throws IOException {
+    private String getInputMessage() throws IOException {
         StringBuilder stringBuilder = new StringBuilder();
 
         try (FileReader fileReader = new FileReader(new File("src" + File.separator + "Repository" + File.separator + "InputFile" + File.separator + "InputFile.txt"))) {
@@ -50,14 +26,14 @@ public class Decode {
         return stringBuilder.toString();
     }
 
-    private int getDecodeMessages() throws IOException {
+    private void getDecodeMessages() throws IOException {
         File dir = new File("src" + File.separator + "Repository" + File.separator + "OutputFile");
 
         if (dir.exists() && dir.isDirectory()) {
             File[] files = dir.listFiles();
 
             if (files != null) {
-                String message = getMessage();
+                String message = getInputMessage();
                 int count = 1;
                 for (int i = 0; i < files.length; i++) {
                     try (FileWriter fileWriter = new FileWriter(files[i])) {
@@ -118,18 +94,9 @@ public class Decode {
                 }
             }
         }
-        return 0;
     }
 
-    public List getAlp() {
-        return alp;
-    }
-
-    public List getSmAlp() {
-        return smAlp;
-    }
-
-    public void getFilesInConsole() {
+    public void getTextFromFilesInConsole() {
         String value = "";
 
         try {
@@ -179,5 +146,38 @@ public class Decode {
         }
 
         out.println("Корректный вариант рассшифровки: \n \n" + value);
+    }
+
+    public List getAlp() {
+        return alp;
+    }
+
+    private ArrayList<Character> setAlp() {
+        alp = new ArrayList<>();
+
+        for (char i = '\u0410'; i <= '\u042F'; i++) {
+            alp.add(i);
+        }
+
+        alp.add(6, '\u0401');
+
+        return alp;
+    }
+
+    public List getSmAlp() {
+        return smAlp;
+    }
+
+
+    private ArrayList<Character> setSmAlp() {
+        smAlp = new ArrayList<>();
+
+        for (char i = '\u0430'; i <= '\u044F'; i++) {
+            smAlp.add(i);
+        }
+
+        smAlp.add(6, '\u0451');
+
+        return smAlp;
     }
 }
